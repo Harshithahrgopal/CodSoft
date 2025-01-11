@@ -1,0 +1,71 @@
+tasks = []
+
+def add_task():
+    description = input("Enter task description: ")
+    priority = input("Enter task priority (Low, Medium, High): ")
+    deadline = input("Enter deadline (optional, e.g., 2025-01-15): ")
+    tasks.append({
+        "description": description,
+        "priority": priority,
+        "deadline": deadline,
+        "completed": False
+    })
+    print("Task added successfully!")
+
+def view_tasks():
+    print("\nTo-Do List:")
+    if not tasks:
+        print("No tasks found!")
+    for i, task in enumerate(tasks, 1):
+        status = "✔ Completed" if task["completed"] else "✘ Incomplete"
+        print(f"{i}. [{status}] {task['description']} (Priority: {task['priority']}, Deadline: {task['deadline']})")
+
+def update_task():
+    view_tasks()
+    index = int(input("Enter the task number to update: ")) - 1
+    if 0 <= index < len(tasks):
+        print("\n1. Mark as Completed\n2. Edit Task\n3. Update Priority")
+        choice = input("Enter your choice: ")
+        if choice == "1":
+            tasks[index]["completed"] = True
+            print("Task marked as completed!")
+        elif choice == "2":
+            tasks[index]["description"] = input("Enter new description: ") or tasks[index]["description"]
+            tasks[index]["deadline"] = input("Enter new deadline: ") or tasks[index]["deadline"]
+            print("Task updated successfully!")
+        elif choice == "3":
+            tasks[index]["priority"] = input("Enter new priority: ") or tasks[index]["priority"]
+            print("Priority updated successfully!")
+        else:
+            print("Invalid choice.")
+    else:
+        print("Invalid task number.")
+
+def delete_task():
+    view_tasks()
+    index = int(input("Enter the task number to delete: ")) - 1
+    if 0 <= index < len(tasks):
+        tasks.pop(index)
+        print("Task deleted successfully!")
+    else:
+        print("Invalid task number.")
+
+def menu():
+    while True:
+        print("\n1. Add Task\n2. View Tasks\n3. Update Task\n4. Delete Task\n5. Exit")
+        choice = input("Enter your choice: ")
+        if choice == "1":
+            add_task()
+        elif choice == "2":
+            view_tasks()
+        elif choice == "3":
+            update_task()
+        elif choice == "4":
+            delete_task()
+        elif choice == "5":
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+menu()
